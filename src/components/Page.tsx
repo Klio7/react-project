@@ -13,7 +13,7 @@ interface IState {
 
 export class Page extends Component {
   state: IState = {
-    query: "",
+    query: " ",
     results: undefined,
   };
 
@@ -29,8 +29,10 @@ export class Page extends Component {
     const fetchedResult: IParsedData[] | undefined = await getData(
       this.state.query,
     );
+    localStorage.setItem("shutterstock", this.state.query);
     this.setState({ results: fetchedResult });
   };
+
   generateError = () => {
     this.setState({ results: 0 });
   };
@@ -38,7 +40,11 @@ export class Page extends Component {
     return (
       <div>
         <div>
-          <input onChange={this.handleInputChange}></input>
+          <input
+            onChange={this.handleInputChange}
+            type="text"
+            defaultValue={localStorage.getItem("shutterstock") ?? " "}
+          ></input>
           <button onClick={this.handleRequest}>SEARCH</button>
         </div>
         <button onClick={this.generateError}>Generate Error</button>
