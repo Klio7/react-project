@@ -10,14 +10,19 @@ interface IParsedData {
 interface IState {
   query: string;
   results: IParsedData[] | undefined;
+  loading: boolean;
 }
 
 export class Page extends Component {
   state: IState = {
     query: localStorage.getItem("shutterstock") ?? " ",
     results: undefined,
+    loading: true,
   };
 
+  componentDidMount(): void {
+    this.handleRequest();
+  }
   handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target) {
       this.setState({
@@ -31,11 +36,11 @@ export class Page extends Component {
       this.state.query,
     );
     localStorage.setItem("shutterstock", this.state.query);
-    this.setState({ results: fetchedResult });
+    this.setState({ results: fetchedResult, loading: false });
   };
 
   generateError = () => {
-    this.setState({ results: 0 });
+    this.setState({ results: 0, loading: false });
   };
   render() {
     return (
@@ -54,20 +59,24 @@ export class Page extends Component {
         <button className={styles.button} onClick={this.generateError}>
           Generate Error
         </button>
-        <div className={styles.cards}>
-          {this.state.results?.map((result: IParsedData) => {
-            if (result) {
-              return (
-                <Card
-                  description={result.description}
-                  image={result.image}
-                  key={result.image}
-                />
-              );
-            }
-          })}
-          ;
-        </div>
+        {this.state.loading ? (
+          <h2 style={{ color: "white" }}>Loading...</h2>
+        ) : (
+          <div className={styles.cards}>
+            {this.state.results?.map((result: IParsedData) => {
+              if (result) {
+                return (
+                  <Card
+                    description={result.description}
+                    image={result.image}
+                    key={result.image}
+                  />
+                );
+              }
+            })}
+            ;
+          </div>
+        )}
       </div>
     );
   }

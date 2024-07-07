@@ -23,7 +23,7 @@ export async function getData(searchedValue: string) {
   if (response.ok) {
     data = (await response.json()) as IResponse;
   } else {
-    console.log(response.status);
+    console.log(response);
   }
   const finalData = data?.data.map((item) => {
     const description = item.description;
