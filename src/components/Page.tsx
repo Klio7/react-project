@@ -1,5 +1,6 @@
 import { ChangeEvent, Component } from "react";
 import { getData } from "../api-service/search";
+import { Card } from "./Card";
 
 interface IParsedData {
   description: string | undefined;
@@ -30,7 +31,9 @@ export class Page extends Component {
     );
     this.setState({ results: fetchedResult });
   };
-
+  generateError = () => {
+    this.setState({ results: 0 });
+  };
   render() {
     return (
       <div>
@@ -38,14 +41,16 @@ export class Page extends Component {
           <input onChange={this.handleInputChange}></input>
           <button onClick={this.handleRequest}>SEARCH</button>
         </div>
+        <button onClick={this.generateError}>Generate Error</button>
         <div>
           {this.state.results?.map((result: IParsedData) => {
             if (result) {
               return (
-                <>
-                  <div>{result.description}</div>
-                  <img src={result.image} />
-                </>
+                <Card
+                  description={result.description}
+                  image={result.image}
+                  key={result.image}
+                />
               );
             }
           })}

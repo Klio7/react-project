@@ -22,7 +22,6 @@ export async function getData(searchedValue: string) {
   let data;
   if (response.ok) {
     data = (await response.json()) as IResponse;
-    console.log(data);
   } else {
     console.log(response.status);
   }
