@@ -1,6 +1,7 @@
 import { ChangeEvent, Component } from "react";
 import { getData } from "../api-service/search";
 import { Card } from "./Card";
+import styles from "./Page.module.css";
 
 interface IParsedData {
   description: string | undefined;
@@ -13,7 +14,7 @@ interface IState {
 
 export class Page extends Component {
   state: IState = {
-    query: " ",
+    query: localStorage.getItem("shutterstock") ?? " ",
     results: undefined,
   };
 
@@ -38,17 +39,22 @@ export class Page extends Component {
   };
   render() {
     return (
-      <div>
-        <div>
+      <div className={styles.main}>
+        <div className={styles.title}>SHUTTERSTOCK SEARCH</div>
+        <div className={styles.searchBlock}>
           <input
             onChange={this.handleInputChange}
             type="text"
             defaultValue={localStorage.getItem("shutterstock") ?? " "}
           ></input>
-          <button onClick={this.handleRequest}>SEARCH</button>
+          <button className={styles.button} onClick={this.handleRequest}>
+            SEARCH
+          </button>
         </div>
-        <button onClick={this.generateError}>Generate Error</button>
-        <div>
+        <button className={styles.button} onClick={this.generateError}>
+          Generate Error
+        </button>
+        <div className={styles.cards}>
           {this.state.results?.map((result: IParsedData) => {
             if (result) {
               return (
