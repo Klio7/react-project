@@ -23,6 +23,7 @@ export class Page extends Component {
   componentDidMount(): void {
     this.handleRequest();
   }
+
   handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target) {
       this.setState({
@@ -32,6 +33,7 @@ export class Page extends Component {
   };
 
   handleRequest = async () => {
+    this.setState({ loading: true });
     const fetchedResult: IParsedData[] | undefined = await getData(
       this.state.query,
     );
@@ -59,6 +61,7 @@ export class Page extends Component {
         <button className={styles.button} onClick={this.generateError}>
           Generate Error
         </button>
+
         {this.state.loading ? (
           <h2 style={{ color: "white" }}>Loading...</h2>
         ) : (
