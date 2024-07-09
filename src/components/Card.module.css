@@ -1,0 +1,14 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  border: 2px solid black;
+  padding: 10px;
+  background-color: cornsilk;
+}
+
+.cardDescription {
+  padding: 5px;
+  margin: 10px;
+}
